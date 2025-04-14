@@ -10,6 +10,7 @@
 	},
 	"files.associations": {
 		"plag_main.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"string.h": "c"
 	}
 }
