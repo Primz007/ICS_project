@@ -7,7 +7,7 @@
 #define UNION_H
 
 // function to find union and intersection of two hash tables
-// returns a linked list containing union elements and updates intersection count
+
 node* union_intersection_set(table* head1, table* head2, int* union_ct, int* intersection_ct){
 
 node* union_head = NULL;

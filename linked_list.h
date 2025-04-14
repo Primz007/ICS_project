@@ -4,14 +4,13 @@
 #define WORD_LENGTH 128
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
-//STANDARD LINKED LIST THINGS YOU KNOW THAT DONT YOU
+
 typedef struct node{
     char word[WORD_LENGTH];
     struct node* next;
 }node;
 
-//This function is useless lmao as u cannot directly assign a string to an array of char
-//genius design
+//This function is unused
 node* create_node(char* word){
     node* new = malloc(sizeof(node));
     new->next = NULL;

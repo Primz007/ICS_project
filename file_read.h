@@ -8,29 +8,32 @@
 #define size_of_file 262144*8
 
 void do_Nothing(){
-    //As the function says do Nothing
+    //the function does nothing
+    //placeholder
+    
 }
 //Read the file first
 node* fileRead(char* filename){
     
-    //I WILL INITIALISE LINKED LIST HERE
-    node *head = NULL;//INITIALISE TO NULL SO C DOESNT GET A CHANCE TO SEGFAULT ITS FAVOURITE THING TO DO
-    // POINTING TO HEAD WHICH IS NOT NULL SEGFAULTS CUZ FUCK U
-    //END
+    //initialise the linked list head to NULL
+    //so that we can add nodes to it later
+    node *head = NULL;
+    
+    //open the file in read mode
     FILE *file_pointer = fopen(filename, "r");
-    //GET THE FAIL CONDITION CUZ WHY NOT C LOVES TO FAIL RETARDED POS
+    //get the fail condition
     if(file_pointer == NULL){
-    perror("Welcome to C");
+    perror("error opening file");
     return head;
     }
-    //ALLOCATE 16KB FOR EACH LINE
+    //allocate 2MB for the buffer
     char* buffer = calloc(size_of_file,sizeof(char));
     // memset(buffer, 0, size_of_file);//setting memory of entire buffer to 0 before so garbage values are impossible to send to linked list
 
     //READ THE LINE AND TERMINATE WHEN FGETS RETURN NULL POINTER
     while(fgets(buffer, size_of_file, file_pointer)){
-        // printf("RAWDOg: %s\n", buffer);
-        //FGETS KEEPS \N AT END OF LINE I REPLACE WITH SPACE
+        //remove the newline character from the end of the line
+        //strcspn returns the index of the first occurrence of any character in the second string in the first string
         buffer[strcspn(buffer, "\n")] = ' ';
         //APPLY FOR EACH WORD
         //required as else tokenisation process may end 
@@ -46,8 +49,7 @@ node* fileRead(char* filename){
         {   
             //we cant skip the whole thing if code is like this: code // comment
             //in this case i'll delete last parts for multiline comment
-            //who uses it anyways wont handle those edgecases
-            // its already 2:30 am damn
+            
             buffer[strcspn(buffer, "//")] = '\0';
             // remove the thing when // starts so code before // remains!!!
             
@@ -59,7 +61,7 @@ node* fileRead(char* filename){
             continue;
             //if multiline
             /*
-            lol
+            abc
             */
            //it will check for starting point /* and untill it doesnt find */ 
            // it skips lines, after finding break and skip this line
@@ -80,14 +82,12 @@ node* fileRead(char* filename){
             char* token = strtok(buffer, " ,.-\n!:;(){}[]\"/*-+=|");
             while(token != NULL){
                 if(strlen(token) == 0){
-                   // token = NULL; -> this never works as ur messing with strtok advanced tracking system
+                   // token = NULL; -> this never works as you are messing with strtok tracking system
                    token = strtok(NULL,  " ,.-\n!:;(){}[]\"/*-+=|");
                     continue;
-                    // so that c doesnt seg fault when a stupid ass invisible charector slips in
-                    //yk that c likes to segfault so it enters it own invisble char 
-                    // to segfault genius design right
+                   
                 }
-            //C IS C NOT ASSIGN STRING TO ARRAY GENIUS DESIGN RIGHT SO USES STRCPY
+           
             node* p1 = malloc(sizeof(node));
             if (p1 == NULL) {
                 perror("Download more ram nub");
@@ -99,12 +99,11 @@ node* fileRead(char* filename){
              
             strncpy(lower, token, WORD_LENGTH - 1); // strncpy to prevent overflow for eg if lenght
             //exceeds 128 so it would truncate till max length and add \0 safely copies i.e.
-            //strcpy doesnt add \0 at end so it included garbage shit which overflows and seg faults
-            //DO NOT I REPEAT DO NOT TOUCH THIS strncpy pls
-            //fix passing garbage
+            //strcpy doesnt add \0 at end 
+         
             //strncpy does not null-terminate the string if the source is longer than or equal to the destination size.
             lower[WORD_LENGTH - 1] = '\0';
-            for(int i = 0; i <strlen(lower); i++){//length of token undefined may exceed 128 so yeah
+            for(int i = 0; i <strlen(lower); i++){//length of token undefined may exceed 128
                 lower[i] = tolower(lower[i]);
             }
 
