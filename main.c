@@ -1,21 +1,21 @@
-#include "raylib.h"
-#include <time.h>
-#include <stdlib.h>
-#include <string.h>
+#include "raylib.h"     //For frontend
+#include <time.h>       //For random phrase display
+#include <stdlib.h>     
+#include <string.h>    
 #include <stdio.h>
-#include "plag_main.h"
+#include "plag_main.h"  //Main plag checker function and function of top 5 most words used 
 
 bool flag=false;
 
-typedef enum {
+typedef enum {           //The screens used
     SCREEN_WELCOME,
-    SCREEN_MAIN,            //adding all the screens
+    SCREEN_MAIN,           
     SCREEN_ABOUT,
     SCREEN_DETECT_PLAGIARISM 
 } ScreenState;
 
 int main(void)
-{   double score = plag_check();
+{   double score = plag_check();              
     ScreenState currentScreen = SCREEN_WELCOME;
 
     const int screenWidth = 1920;

@@ -1,2 +1,1 @@
-this is a code\\HELLO
-#include IC.h
+this is a code
