@@ -1,73 +1,77 @@
 #include "linked_list.h"
 #include "file_read.h"
-#include "uthash.h"
+#include "uthash.h"    // header for hash table implementation
 #include <string.h>
 #include <stdlib.h>
 
 #ifndef UNIQUE_ELEMENTS_H
 #define UNIQUE_ELEMENTS_H
 
+// structure for hash table entries
 typedef struct
 {   
-    char word[WORD_LENGTH];
-    int count;
-    UT_hash_handle hh;
+    char word[WORD_LENGTH];    // stores the word
+    int count;                 // stores frequency of the word
+    UT_hash_handle hh;        // makes this structure hashable
 }table;
+
+// structure to store most frequently used words
 typedef struct{
-    char tok[WORD_LENGTH];
-    int ct;
+    char tok[WORD_LENGTH];     // stores the word
+    int ct;                    // stores count of word
 }most_used;
 
+// function to get unique elements from linked list and their frequencies
 table* get_unique_elements(node* head, int* count_of){
     //entry is the node, words is the head of tha hash table (like a linked list)
     table *words = NULL, *entry = NULL;
-    *count_of = 0;
+    *count_of = 0;            // initialize counter for unique words
 
     while(head != NULL){
         // find the word to see if there in hash table
         HASH_FIND_STR(words, head->word, entry);
-        if(entry == NULL){//if no then, create a node entry with word and add to hash table
-            //similar to linked list i am creating a node and placing word in it
-            entry = (table*)malloc(sizeof(table));//without typecasting vs code gives error dk why
+        if(entry == NULL){    // if word not found in hash table
+            // create new entry for the word
+            entry = (table*)malloc(sizeof(table));
             strcpy(entry->word, head->word);
 
-            // now node is created using uthash internal function to add it to
-            //hash table just like we add node to head in linked list!
+            // add the new entry to hash table
             HASH_ADD_STR(words, word, entry);
-            entry->count = 1;
-            (*count_of)++;
+            entry->count = 1;  // initialize count to 1
+            (*count_of)++;     // increment unique words counter
         }
         else{
-            entry->count++;
+            entry->count++;    // increment count if word already exists
         }
-        head = head->next;
+        head = head->next;    // move to next word in linked list
     }
-    return words;
+    return words;             // return hash table
 }
 
-//THIS CODE IS COPIED FROM GPT, FOR DEBUG ONLY REMOVE LATER
+// debug function to print all unique elements and their counts
 void debug_print_unique_elements(table* words) {
     table *entry, *tmp;
 
-    // Iterate through the hash table
+    // iterate through the hash table
     HASH_ITER(hh, words, entry, tmp) {
         printf("%s: %d\n", entry->word, entry->count);
     }
 }
 
+// function to create array of most used words
 most_used* return_most_used(table* words,int count){
-    //most uused list!
     table *entry, *tmp;
 
+    // allocate memory for array of most_used structures
     most_used* use_list = calloc(count,sizeof(most_used));
     int i = 0;
+    // iterate through hash table and copy data to array
     HASH_ITER(hh, words, entry, tmp){
         (use_list +i)->ct = entry->count;
         strcpy((use_list+i)->tok, entry->word);
         i++;
     }
-    return use_list;
+    return use_list;         // return array of most used words
 }
-// typedef 
 
 #endif

@@ -7,17 +7,21 @@
 #ifndef UNIQUE_ELEMENTS_H
 #define UNIQUE_ELEMENTS_H
 
+// structure to store word and its count in hash table
 typedef struct
 {   
     char word[WORD_LENGTH];
     int count;
     UT_hash_handle hh;
 }table;
+
+// structure to store most frequently used words
 typedef struct{
     char tok[WORD_LENGTH];
     int ct;
 }most_used;
 
+// function to get unique elements from linked list and count their occurrences
 table* get_unique_elements(node* head, int* count_of){
     //entry is the node, words is the head of tha hash table (like a linked list)
     table *words = NULL, *entry = NULL;
@@ -45,16 +49,7 @@ table* get_unique_elements(node* head, int* count_of){
     return words;
 }
 
-//THIS CODE IS COPIED FROM GPT, FOR DEBUG ONLY REMOVE LATER
-void debug_print_unique_elements(table* words) {
-    table *entry, *tmp;
-
-    // Iterate through the hash table
-    HASH_ITER(hh, words, entry, tmp) {
-        printf("%s: %d\n", entry->word, entry->count);
-    }
-}
-
+// function to create and return array of most used words
 most_used* return_most_used(table* words,int count){
     //most uused list!
     table *entry, *tmp;
